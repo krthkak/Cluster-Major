@@ -67,7 +67,7 @@ map_welfare_desc = {k:v for v,k in enumerate(asc_welfare,start = 1)}
 data4[0] = data4[0].map(map_welfare_asc)
 data4.head()
 
-"""Age Wise Interests Extrapolation"""
+"""---------------------------------------Age Wise Interests Extrapolation-------------------------------"""
 
 """num_clusters = 4
 km_w_asc_map = KMeans(n_clusters = num_clusters)
@@ -103,7 +103,7 @@ with open("all_interests_by_clusters.pkl","wb") as file:
 with open("top_interests_by_clusters.pkl","wb") as file:
     pickle.dump(top_interests_by_clusters,file)
 
-"""Gender Wise Interests Extrapolation"""
+"""------------------------Gender Wise Interests Extrapolation-------------------------------------------"""
 #Gender wise  INterests
 age_interests = data4.groupby([0,"Gender"],as_index=False)["Occupation"].count()
 male = list(age_interests[age_interests["Gender"]=="Male"]["Occupation"])
