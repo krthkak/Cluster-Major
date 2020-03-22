@@ -26,6 +26,10 @@ from sklearn.cluster import KMeans
 kmeans = KMeans(n_clusters = 4)
 y_pred = kmeans.fit_predict(x.iloc[:,0:1].sort_values(["Age"],ascending = True))
 
+#Persisting the model with 4 Clusters
+with open("clustering_with_age.pkl","wb") as file:
+    pickle.dump(kmeans,file)
+
 
 plt.scatter(x["Age"],x["Age"],c = y_pred,cmap = "rainbow")
 plt.xlabel("Gender")
@@ -48,10 +52,13 @@ asc_welfare = data4.groupby([0])["Age"].count().sort_values().index
 #This is currently used
 map_welfare_asc = {k:v for v,k in enumerate(desc_welfare,start = 1)}
 id_interest_dict = dict(zip(map_welfare_asc.values(),map_welfare_asc.keys()))
-with open("Interest_id_dict.pkl","wb") as file:
+
+#Persisting interest_id dictionary
+with open("interest_id_dict.pkl","wb") as file:
     pickle.dump(map_welfare_asc,file)
 
-with open("id_Interest_dict.pkl","wb") as file:
+#Persisting id_dictionary dictionary
+with open("id_interest_dict.pkl","wb") as file:
     pickle.dump(id_interest_dict,file)
 
 #Not recommended for use
@@ -62,11 +69,11 @@ data4.head()
 
 """Age Wise Interests Extrapolation"""
 
-num_clusters = 4
+"""num_clusters = 4
 km_w_asc_map = KMeans(n_clusters = num_clusters)
 km_w_asc_map_pred = km_w_asc_map.fit_predict(data4.iloc[:,[0,-1]])
 data4["Clusters"] = km_w_asc_map_pred
-data4 = data4.reset_index(drop = True)
+data4 = data4.reset_index(drop = True)"""
 
 plt.scatter(data4[0],data4.Age,c = km_w_asc_map_pred,cmap = "rainbow",alpha=0.6)
 plt.ylabel("Age")
@@ -74,9 +81,7 @@ plt.xlabel("Interests")
 plt.xticks(sorted(data4[0].unique()),list(map_welfare_asc.keys()),rotation = "vertical")
 plt.show()
 
-#Persisting the model with 4 Clusters
-with open("clustering_with_age.pkl","wb") as file:
-    pickle.dump(kmeans,file)
+
 
 
 #Getting the interest cluster wise
@@ -111,7 +116,6 @@ data5 = data4.copy()
 data5["Gender"] = data5["Gender"].map({"Male":1,"Female":0})
 
 #Visualising gender vs interests
-
 plt.scatter(data5.Gender,data5[0])
 plt.show()
 
@@ -123,8 +127,15 @@ plt.ylabel("Interests")
 plt.xticks(range(1,15),list(map_welfare_asc.keys()),rotation = "vertical")
 plt.show()
 
-#Gathering Top interests of Respective Genders
+"""Gathering Top interests of Respective Genders"""
 male_interests_names = dict(zip(map_welfare_asc.keys(),male))
 male_top_interests = sorted(male_interests_names , key = male_interests_names.get,reverse = True)[:5]
+#Persisting male_top_interests
+with open("male_top_interests.pkl","wb") as file:
+    pickle.dump(male_top_interests,file)
+
 female_interests_names = dict(zip(map_welfare_asc.keys(),female))
 female_top_interests = sorted(female_interests_names , key = female_interests_names.get,reverse = True)[:5]
+#Persisting female_top_interests
+with open("female_top_interests.pkl","wb") as file:
+    pickle.dump(female_top_interests,file)
