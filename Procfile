@@ -1,1 +1,1 @@
-web:gunicorn app_cluster:app
+web:wsgi app_cluster:app
