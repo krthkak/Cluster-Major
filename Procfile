@@ -1,1 +1,1 @@
-web:gunicorn clusterapp:app
+web:gunicorn appcluster:app
